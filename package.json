@@ -28,9 +28,10 @@
     "typescript": "^7.0.2"
   },
   "bin": {
-    "ai":"./.dist/cmd/ai.js"
+    "ai": "./.dist/cmd/ai.js"
   },
   "dependencies": {
-    "commander": "^15.0.0"
+    "commander": "^15.0.0",
+    "yaml": "^2.9.0"
   }
 }

@@ -1,0 +1,15 @@
+active: "wave 1"
+goalCompleted: false
+
+"wave 1":
+  name: "Wave 1: Planner Foundations"
+  tasks:
+    - name: "Define planner agent (AI/agents/planner.md)"
+      agent: "ai"
+      status: "completed"
+    - name: "Define executor skills (AI/skills/wave-code.md, wave-ai.md, wave-human.md)"
+      agent: "ai"
+      status: "completed"
+    - name: "Create artifact templates (task-goal.md, plan.yml, wave-N-task-M.md)"
+      agent: "ai"
+      status: "completed"
