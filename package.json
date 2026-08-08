@@ -1,0 +1,36 @@
+{
+  "name": "waves-compiler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "to-ai.js",
+  "scripts": {
+    "start": "npm run build && npm link",
+    "build": "tsc ",
+    "pkg": "npx tsup ",
+    "postpkg": "npm link"
+  },
+  "exports": {
+    ".": {
+      "default": "./dist/index.js"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "javascript-obfuscator": "^5.5.0",
+    "tsup": "^8.5.1",
+    "typescript": "^7.0.2"
+  },
+  "bin": {
+    "ai":"./.dist/cmd/ai.js"
+  },
+  "dependencies": {
+    "commander": "^15.0.0"
+  }
+}
