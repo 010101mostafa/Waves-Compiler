@@ -53,7 +53,7 @@ The Planner Agent never executes work.
 Its responsibilities are:
 
 - Understand the user's goal.
-- Create or update `plan.md`.
+- Create or update `plan.yml`.
 - Select the next wave.
 - Replan after every completed wave.
 - Decide when the overall goal is complete.
@@ -80,11 +80,13 @@ Conversation history is not the primary memory.
 
 Instead, execution is driven by persistent artifacts such as:
 
-```
-plan.md
-logs/
-artifacts/
-state.json
+```fs
+    |-.logs/
+    |-.env # secrent reusable values (urls user/passwork)
+    |-plan.yml 
+    |-task-gole.md # the main gole we want to do it 
+    |-wave-1-task-1.md  # input and output of task 1 in wave 1
+    
 ```
 
 A planner should be able to restart from these files without requiring previous chat history.
@@ -129,7 +131,7 @@ A[User Goal]
 
 B[Planner Agent]
 
-C[plan.md]
+C[plan.yml]
 
 D{Next Wave}
 
@@ -215,7 +217,7 @@ Responsibilities:
 - Generate the smallest executable solution.
 - Execute it.
 - Produce artifacts.
-- Update `plan.md`.
+- Update `plan.yml`.
 - Return control.
 
 Example:
@@ -224,7 +226,7 @@ Example:
 flowchart LR
     A[Goal: Rename 'CPS' to 'CSP'] --> B[Generate rename.js]
     B --> C[Execute rename.js]
-    C --> D[Update plan.md]
+    C --> D[Update plan.yml]
 ```
 
 ---
@@ -294,7 +296,7 @@ C[Execute]
 
 D[Artifacts]
 
-E[Update plan.md]
+E[Update plan.yml]
 
 F[Planner]
 
@@ -311,61 +313,33 @@ E --> F
 
 ---
 
-# plan.md Example
+# plan.yml Example
+```yml
+active: "wave 2"
+taskCompleted: false
+wave 1:
+    name: "Wave 1: Base Update"
+    tasks:
+        update dependencies:
+            agent: "ai-to-code"
+            status: "completed"
+        update services:
+            agent: "ai-to-code"
+            status: "completed"
+        update components:
+            agent: "ai-to-code"
+            status: "completed"
 
-```markdown
-# Goal
-
-Upgrade project to Angular 20.
-
----
-
-## Wave 1
-
-Executor: code
-
-Goal:
-
-Update package dependencies.
-
-Status:
-
-Completed
-
-Artifacts:
-
-- build.log
-- package.json
-
----
-
-## Wave 2
-
-Executor: ai
-
-Goal:
-
-Review deprecated APIs.
-
-Status:
-
-Pending
-
----
-
-## Wave 3
-
-Executor: human
-
-Goal:
-
-Approve deployment.
-
-Status:
-
-Pending
+wave 2:
+    name: "Wave 2: Finalize Update"
+    tasks:
+        review code changes:
+            agent: "ai"
+            status: "todo"
+        Create PR:
+            agent: "ai"
+            status: "complete"
 ```
-
 ---
 
 # Execution Flow
@@ -383,7 +357,7 @@ participant Project
 
 User->>Planner: Goal
 
-Planner->>Planner: Generate plan.md
+Planner->>Planner: Generate plan.yml
 
 loop Until Finished
 
@@ -428,81 +402,8 @@ Benefits:
 | Chat is primary memory | Artifacts are primary memory |
 | Continuous orchestration | Wave orchestration |
 | AI executes everything | Specialized executors |
-| Hard to resume | Resume from plan.md |
+| Hard to resume | Resume from plan.yml |
 | Often repeats planning | Planning is incremental |
-
----
-
-# Example
-
-User:
-
-> Upgrade this project to Angular 20.
-
-Planner:
-**plan.yml**
-```yml
-wave_1:
-    name: "Wave 1: Base Update"
-    status: "in_progress"
-    tasks:
-        update_dependencies:
-            agent: "ai-to-code"
-            status: "completed"
-        update_services:
-            agent: "ai-to-code"
-            status: "todo"
-        update_components:
-            agent: "ai-to-code"
-            status: "todo"
-
-wave_2:
-    name: "Wave 2: Finalize Update"
-    status: "todo"
-    tasks:
-        update_dependencies:
-            agent: "ai-to-code"
-            status: "todo"
-        update_services:
-            agent: "ai-to-code"
-            status: "todo"
-        update_components:
-            agent: "ai-to-code"
-            status: "todo"
-```
----- 
-
-+ Wave 1(`todo`) Update code .
-   + [x] task 1 (`ai-to-code`): update dependencies 
-   + [ ] task 2 (`ai-to-code`): update services
-   + [ ] task 2 (`ai-to-code`): update components
----
-+ Wave 1(`todo`) Update code .
-   + [x] task 1 (`ai-to-code`): update dependencies
-   + [ ] task 2 (`ai-to-code`): update services
-   + [ ] task 2 (`ai-to-code`): update components
-
-Wave 3
-Executor: AI
-
-Review remaining deprecations.
-
----
-
-Wave 4
-Executor: Code
-
-Run tests and generate report.
-
----
-
-Wave 5
-Executor: Human
-
-Approve release.
-```
-
-Execution continues until no remaining waves exist.
 
 ---
 
@@ -530,13 +431,3 @@ Each wave is assigned to the most appropriate executor.
 The planner learns from the artifacts produced by previous waves and continuously recompiles the plan until the user's goal is achieved.
 
 The result is a system that is resumable, observable, modular, and optimized for long-running AI-assisted workflows.
-
-
-md file needed 
-```fs
-    |-.env # secrent reusable values (urls user/passwork)
-    |-plan.yml 
-    |-task-gole.md # the main gole we want to do it 
-    |-wave-1-task-1.md  # input and output of task 1 in wave 1
-    
-```
