@@ -1,13 +1,12 @@
 
 import { run } from './childs_p.js';
-import type { ToolType } from './config.js';
+import { config, type ToolType } from './config.js';
 export function ai(prompt: string, options: {
   tool?: ToolType
-  replace?:boolean
 } = {}) {
-  const { tool = "pi",replace } = options;
+  const { tool = config.tool } = options;
   const args = getArgs(tool, prompt)
-  return run(tool, args, "AI",{replace});
+  return run(tool, args, "AI");
 }
 
 function getArgs(tool:ToolType, prompt:string) {

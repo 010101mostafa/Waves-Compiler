@@ -1,33 +1,33 @@
-import { defineConfig } from "tsup";
-import fs from "fs/promises";
+import { defineConfig } from "tsdown";
+import fs from "node:fs/promises";
+import path from "node:path";
 import JavaScriptObfuscator from "javascript-obfuscator";
-import path from "path";
+
 export default defineConfig({
-  entry: ["src/index.ts","src/cmd"],
+  entry: ["src/index.ts", "src/cmd/*.ts"],
   format: ["esm"],
   outDir: "./.dist",
   clean: true,
+  outExtensions: () => ({ js: ".js" }),
 
-  // 1. Bundle dependencies into the build output
+  // 1. Bundle all dependencies into output
   noExternal: [/.*/],
 
-  // 2. Disable source map evaluation for external node_modules assets
+  // 2. Disable sourcemaps
   sourcemap: false,
 
-  // 3. Configure default loaders for standard extensions
-  loader: {
-    ".json": "json",
-    ".txt": "text",
-    ".html": "text",
-    ".wasm": "binary",
-  },
+  // 3. Post-build hook for obfuscation
   async onSuccess() {
     const distDir = path.resolve("./.dist");
-    const jsFiles = fs.glob([distDir+"/*.js",distDir+"/**/*.js"]);
-    console.log("starting Obfuscating Code")
+    const jsFiles = fs.glob([
+      path.join(distDir, "*.js"),
+      path.join(distDir, "**/*.js"),
+    ]);
+
+    console.log("Starting code obfuscation...");
+
     for await (const filePath of jsFiles) {
       try {
-        console.log("filePath:",filePath)
         const code = await fs.readFile(filePath, "utf-8");
 
         const obfuscatedResult = JavaScriptObfuscator.obfuscate(code, {
@@ -44,11 +44,11 @@ export default defineConfig({
         await fs.writeFile(
           filePath,
           obfuscatedResult.getObfuscatedCode(),
-          "utf-8",
+          "utf-8"
         );
-        console.log(` Obfuscated: ${path.relative(distDir, filePath)}`);
+        console.log(`Obfuscated: ${path.relative(distDir, filePath)}`);
       } catch (err) {
-        console.error(" Obfuscation failed:", err);
+        console.error(`Obfuscation failed for ${filePath}:`, err);
       }
     }
   },

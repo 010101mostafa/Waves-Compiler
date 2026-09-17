@@ -6,12 +6,12 @@
   "scripts": {
     "start": "npm run build && npm link",
     "build": "tsc ",
-    "pkg": "npx tsup ",
+    "pkg": "npx tsdown ",
     "postpkg": "npm link"
   },
   "exports": {
     ".": {
-      "default": "./dist/index.js"
+      "default": "./.dist/index.js"
     },
     "./package.json": {
       "default": "./package.json"
@@ -22,13 +22,14 @@
   "license": "ISC",
   "type": "module",
   "devDependencies": {
-    "@types/node": "^26.1.2",
+    "@types/node": "^26.5.0",
     "javascript-obfuscator": "^5.5.0",
-    "tsup": "^8.5.1",
+    "tsdown": "^0.22.14",
     "typescript": "^7.0.2"
   },
   "bin": {
-    "ai": "./.dist/cmd/ai.js"
+    "ai": "./.dist/cmd/ai.js",
+    "ai-task": "./.dist/cmd/ai-task.js"
   },
   "dependencies": {
     "commander": "^15.0.0",

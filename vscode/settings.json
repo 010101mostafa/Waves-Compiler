@@ -1,0 +1,41 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "mkdir": true,
+        "cp": true,
+        "mv": true,
+        "rm": true,
+        "touch": true,
+        "ls": true,
+        "cat": true,
+        "grep": true,
+        "find": true,
+        "echo": true,
+        "cd": true,
+        "pwd": true,
+        "head": true,
+        "tail": true,
+        "wc": true,
+        "awk": true,
+        "sed": true,
+        "sort": true,
+        "uniq": true,
+        "cut": true,
+        "tr": true,
+        "xargs": true,
+        "curl": true,
+        "npx": true,
+        "ng": true,
+        "npm": true,
+        "git": true,
+        "docker": true,
+        "kubectl": true,
+    },
+    "chat.tools.autoApprove": true,
+    "files.readonlyIncludePatterns": [
+        "~/work/**"
+    ],
+    "chat.useCustomizationsInParentRepositories": true,
+    "chat.agentSkillsLocations": {
+        ".github/skills": true
+    },
+}

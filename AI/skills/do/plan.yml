@@ -1,5 +1,18 @@
-active: "wave 1"
+active: "wave 2"
 goalCompleted: false
+
+"wave 2":
+  name: "Wave 2: Executor Runtime"
+  tasks:
+    - name: "Wire the dispatcher to the mode skills"
+      agent: "ai"
+      status: "running"
+    - name: "Rename wave-* artifacts to the new naming scheme"
+      agent: "scripter"
+      status: "todo"
+    - name: "Get the staging API token from the admin"
+      agent: "user-task"
+      status: "todo"
 
 "wave 1":
   name: "Wave 1: Planner Foundations"
@@ -13,3 +26,6 @@ goalCompleted: false
     - name: "Create artifact templates (task-goal.md, plan.yml, wave-N-task-M.md)"
       agent: "ai"
       status: "completed"
+
+recommended_next:
+  free to add what you want
