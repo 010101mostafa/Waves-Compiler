@@ -22,4 +22,4 @@ import { setTaskStatus } from "waves-compiler";
 setTaskStatus("<your-task-id>", "completed"); // or "failed" in the catch
 ```
 
-Your task id is in your brief. If it is missing, ask the planner for it before you start.
+Your task id is in your brief. If it is missing, ask `/do` (the dispatcher that launched you) for it before you start.

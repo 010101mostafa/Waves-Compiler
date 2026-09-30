@@ -16,4 +16,4 @@ Ask the human to do the task, wait for them, record what happened.
 - If you could have done it yourself, say so instead of asking.
 
 **Last step, always:** `ai-task <your-task-id> --status completed` — or `failed` / `skipped`.
-Your task id is in your brief. If it is missing, ask the planner for it before you start.
+Your task id is in your brief. If it is missing, ask `/do` (the dispatcher that launched you) for it before you start.

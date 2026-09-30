@@ -1,3 +1,9 @@
+# Task format:
+#   name:        short title, max 15 words
+#   description: all details — goal, paths, inputs, steps, constraints, and what "done" means
+#   agent:       scripter | ai | user-task
+#   status:      todo | running | completed | failed | skipped
+
 active: "wave 2"
 goalCompleted: false
 
@@ -5,25 +11,63 @@ goalCompleted: false
   name: "Wave 2: Executor Runtime"
   tasks:
     - name: "Wire the dispatcher to the mode skills"
+      description: |
+        Goal: make /do route each task to the right mode skill based on its `agent` field.
+        Paths: AI/skills/do/SKILL.md, AI/skills/code-mode/SKILL.md,
+          AI/skills/agent-mode/SKILL.md, AI/skills/user-mode/SKILL.md.
+        Steps:
+          - Map `scripter` -> code-mode, `ai` -> agent-mode, `user-task` -> user-mode.
+          - Tasks with no `agent` fall back to the mode table in do/SKILL.md.
+          - Each subagent gets its task id, mode, goal, paths and needed .env values.
+        Constraints: do not touch the artifact templates (wave 1 output).
+        Done when: a sample wave with one task per agent type dispatches to the right
+          skill and every subagent marks its own status via `ai-task`.
       agent: "ai"
       status: "running"
     - name: "Rename wave-* artifacts to the new naming scheme"
+      description: |
+        Goal: rename old wave-* skill files and every reference to them.
+        Mapping:
+          - AI/skills/wave-code.md  -> AI/skills/code-mode/SKILL.md
+          - AI/skills/wave-ai.md    -> AI/skills/agent-mode/SKILL.md
+          - AI/skills/wave-human.md -> AI/skills/user-mode/SKILL.md
+        Steps: move the files, then find-and-replace all links and mentions across AI/.
+        Constraints: mechanical only — no content changes besides paths.
+        Done when: `grep -r "wave-code\|wave-ai\|wave-human" AI/` returns nothing.
       agent: "scripter"
-      status: "todo"
+      status: "completed"
     - name: "Get the staging API token from the admin"
+      description: |
+        Goal: obtain the staging API token needed to test the executor runtime end to end.
+        Steps:
+          - Ask the platform admin for a staging API token with read/write scope.
+          - Save it in WD/.env as STAGING_API_TOKEN=<token>. Never commit it.
+        Done when: WD/.env has STAGING_API_TOKEN and a test call to staging returns 200.
       agent: "user-task"
       status: "todo"
 
 "wave 1":
   name: "Wave 1: Planner Foundations"
   tasks:
-    - name: "Define planner agent (AI/agents/planner.md)"
+    - name: "Define the planner agent"
+      description: |
+        Goal: write the planner agent that collects the user's goal into plan.yml.
+        Path: AI/agents/planner.md.
+        Done when: the planner writes one wave with name, description, agent and status per task.
       agent: "ai"
       status: "completed"
-    - name: "Define executor skills (AI/skills/wave-code.md, wave-ai.md, wave-human.md)"
+    - name: "Define the executor skills for code, AI and human modes"
+      description: |
+        Goal: write one rulebook per execution mode.
+        Paths: AI/skills/wave-code.md, AI/skills/wave-ai.md, AI/skills/wave-human.md.
+        Done when: each skill says what it runs, how it reports status, and when it stops.
       agent: "ai"
       status: "completed"
-    - name: "Create artifact templates (task-goal.md, plan.yml, wave-N-task-M.md)"
+    - name: "Create the artifact templates for goal, plan and task files"
+      description: |
+        Goal: provide starting templates for every session artifact.
+        Files: task-goal.md, plan.yml, wave-N-task-M.md.
+        Done when: /plan and /do can create each artifact from its template.
       agent: "ai"
       status: "completed"
 

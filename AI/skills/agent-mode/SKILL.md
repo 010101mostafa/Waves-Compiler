@@ -13,4 +13,4 @@ The default mode. Just do the task the way you normally would.
 - If the task is the same edit repeated, say so and recommend [code-mode](../code-mode/SKILL.md).
 
 **Last step, always:** `ai-task <your-task-id> --status completed` — or `--status failed`.
-Your task id is in your brief. If it is missing, ask the planner for it before you start.
+Your task id is in your brief. If it is missing, ask `/do` (the dispatcher that launched you) for it before you start.
