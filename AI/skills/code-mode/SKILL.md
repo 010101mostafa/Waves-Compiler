@@ -11,7 +11,6 @@ Do the task by writing a script, not by repeating edits by hand.
 - Dry run first if it writes, deletes, or moves anything. Never run a destructive script blind.
 - Verify the change landed — re-grep, count files, run the build. A green script with a red build
   is a failed task.
-- Write what changed to `WD/wave-N-task-M.md`. Counts and the script path, not a transcript.
 - If the task needs judgement per case, say so and recommend [agent-mode](../agent-mode/SKILL.md).
 
 **Report from inside the script — do not shell out to `ai-task`.** `waves-compiler` is already

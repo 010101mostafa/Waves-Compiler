@@ -12,7 +12,6 @@ Ask the human to do the task, wait for them, record what happened.
 - Never ask for a secret already in `WD/.env`. If one is needed, have them put it in `.env` —
   never in the chat, never in an artifact. Name the key, not the value.
 - State destructive actions exactly and get an explicit yes.
-- Verify where you can, then write it to `WD/wave-N-task-M.md`. A `declined` is a real result.
 - If you could have done it yourself, say so instead of asking.
 
 **Last step, always:** `ai-task <your-task-id> --status completed` — or `failed` / `skipped`.

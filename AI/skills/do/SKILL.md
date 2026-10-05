@@ -46,6 +46,10 @@ immediately — no asking, no waiting for another `/do`. Keep going until no wav
 
 These are the only three values `/plan` writes. Treat any other value (e.g. old `super`, `Reviewer`) as `ai`.
 
+## Model and effort
+
+Select the model and effort that fit each task — **do not inherit the current session's model**.
+
 ## Status
 
 Never hand-edit `plan.yml` — use `ai-task <index|task-id> --status <todo|running|completed|failed|skipped>`.
