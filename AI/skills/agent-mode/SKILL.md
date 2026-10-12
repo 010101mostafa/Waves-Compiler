@@ -11,5 +11,7 @@ The default mode. Just do the task the way you normally would.
 - Check the skill list first and load whichever skills fit the task. Their rules override your brief.
 - If the task is the same edit repeated, say so and recommend [code-mode](../code-mode/SKILL.md).
 
-**Last step, always:** `ai-task <your-task-id> --status completed` — or `--status failed`.
-Your task id is in your brief. If it is missing, ask `/do` (the dispatcher that launched you) for it before you start.
+**Last step, always:** `ai-task <task-index> --status completed` — or `--status failed`.
+`<task-index>` is your task's 1-based position in the active wave (a number like `2`), given in your brief.
+Run it from the folder that holds `plan.yml`. If the index is missing, ask `/do` for it before you start.
+If the `ai-task` command itself fails, do not retry or debug it — just finish and close. `/do` fixes the status.

@@ -21,7 +21,8 @@ immediately — no asking, no waiting for another `/do`. Keep going until no wav
 - **Use the task's `agent`** if it has one; otherwise pick a mode from the table. That mode's skill
   is the subagent's rulebook.
 - **Subagent dispatch is mandatory.** never implement it yourself.
-- **Always give the subagent its task id.** required — without it, it cannot report its status.
+- **Always give the subagent its task index** (1-based position in the active wave, e.g. `2`) and the
+  `WD/` path. Required — without it, it cannot report its status.
 - **Brief the subagent fully.** it has no memory: pass the task's full `description`, plus the
   mode, the `.env` values it needs, and anything else the description leaves out.
 - **Launch the whole wave at once**, one subagent per task, in parallel.
@@ -54,7 +55,8 @@ Select the model and effort that fit each task — **do not inherit the current 
 
 Never hand-edit `plan.yml` — use `ai-task <index|task-id> --status <todo|running|completed|failed|skipped>`.
 The wave status rolls up on its own. Mark a task `running` when you launch it; **the subagent marks
-itself** `completed` or `failed` at the end, so just give it its task id.
+itself** `completed` or `failed` at the end, so just give it its task index. If a subagent finishes but
+its task is still `running` (its `ai-task` call failed), set the status yourself from its report.
 
 Waves are ordered newest first in `plan.yml` — wave 3, then 2, then 1. A new wave goes on top.
 

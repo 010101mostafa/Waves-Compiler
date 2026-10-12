@@ -10,6 +10,7 @@ description: Answer fast, short, and in simple English. Use when the user wants 
 - No tools, no file reading, no searching — unless you really cannot answer without it.
 - Keep it to 1-3 sentences (code only if asked).
 - Use simple English. Short, common words. Short sentences. No jargon; if you must use a technical word, explain it in a few words.
+- use list points ,table and images to be more simple and clear. 
 - No intro, no warnings, no list of options. Just the answer.
 - If you are not sure, say it in one line and give your best guess.
 - **Link what helps (recommended).** When the user asks about work, or a task is done, link the related images, files or `.md` files as `[name](/full/path/file.ext)`. Use the full path, one link per item, so a click opens it in VS Code.
