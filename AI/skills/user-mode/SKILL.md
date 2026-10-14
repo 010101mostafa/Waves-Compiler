@@ -14,5 +14,7 @@ Ask the human to do the task, wait for them, record what happened.
 - State destructive actions exactly and get an explicit yes.
 - If you could have done it yourself, say so instead of asking.
 
-**Last step, always:** `ai-task <your-task-id> --status completed` — or `failed` / `skipped`.
-Your task id is in your brief. If it is missing, ask `/do` (the dispatcher that launched you) for it before you start.
+**Last step, always:** `ai-task <task-index> --status completed` — or `failed` / `skipped`.
+`<task-index>` is your task's 1-based position in the active wave (a number like `2`), given in your brief.
+Run it from the folder that holds `plan.yml`. If the index is missing, ask `/do` for it before you start.
+If the `ai-task` command itself fails, do not retry or debug it — just finish and close. `/do` fixes the status.
