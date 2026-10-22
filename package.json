@@ -29,7 +29,8 @@
   },
   "bin": {
     "ai": "./.dist/cmd/ai.js",
-    "ai-task": "./.dist/cmd/ai-task.js"
+    "ai-task": "./.dist/cmd/ai-task.js",
+    "ai-cron": "./.dist/cmd/ai-cron.js"
   },
   "dependencies": {
     "commander": "^15.0.0",
