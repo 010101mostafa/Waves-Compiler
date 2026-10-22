@@ -14,11 +14,10 @@ Runs the plan `/plan` collected, **wave by wave to the end**. `WD/` is the sessi
       if it is not already in context.
    2. Session memory saved by `/plan`.
    3. Neither one? Run `/plan` first, then come back here.
-2. **Write `plan.yml`** if the plan came from session memory. Write every task, with all its details,
-   into `WD/plan.yml` as a new wave on top. Keep old waves. Set `active` to the new wave. From here,
+2. **Always write `plan.yml`** from session memory when `/do` starts, overwriting the file even if it already holds the plan.
+   Write every task, with all its details, into `WD/plan.yml`. Set `active` to the first wave that has `todo` tasks. From here,
    run only what `plan.yml` says.
-3. **Check the wave.** One job per task. No two tasks in a wave touch the same file; if they clash,
-   move one to a later wave.
+3. **Run the `todo` waves in wave order**: for each wave, run all its `todo` tasks in parallel, one subagent per task.
 4. **Mark each task `running`** with `ai-task <index> --status running`.
 5. **Launch the whole wave at once**: one background subagent per task, in parallel. See
    [Briefing a subagent](#briefing-a-subagent).
@@ -26,20 +25,23 @@ Runs the plan `/plan` collected, **wave by wave to the end**. `WD/` is the sessi
    notification moves the run forward.
 7. **On each report**, check the task's status. If it is still `running` (its `ai-task` call
    failed), set it yourself from the report.
-8. **When the wave is done**, point `active` at the next wave and go to step 3. Don't ask the user
-   and don't wait for another `/do`.
-9. **When no wave is left**, check that `task-goal.md` is met and set `goalCompleted: true`.
-   Then send one notification with the `notify` skill: the issue, the result, and the file to open.
+8. **When the wave is done**, point `active` at the next wave and go to next wave. Don't ask the user and don't wait for another `/do` **never stop**.
 
-**Never stop after one wave.** Stop early only if a failed task makes the next wave meaningless, or
-the user interrupts.
 
 ## Briefing a subagent
 
 - **Never do a task yourself.** Every task goes to a subagent.
 - **Mode:** use the task's `agent`; otherwise pick one from [Modes](#modes). That mode's skill is the
   subagent's rulebook.
-- **Model and effort:** pick what fits the task. **Do not inherit the current session's model.**
+- **Model:** use the task's `model` (set by `/plan`). No `model` → small. **Do not inherit the current session's model.**
+  Map it to the provider's model sizes:
+
+  | `model` | Size | e.g. Claude |
+  |---|---|---|
+  | `small` | Small, fast model | Haiku |
+  | `mid` | Mid-size model | Sonnet |
+  | `large` | Largest model | Opus |
+- **Effort:** set `effort` to high to indicate a high-effort task.
 - **Required:** the task index (1-based position in the active wave, e.g. `2`) and the `WD/` path.
   Without them it cannot report its status.
 - **Full brief:** the subagent has no memory. Pass the task's full `description`, the mode, the
@@ -50,9 +52,8 @@ the user interrupts.
 - **Tasks come from `/plan`** with `name`, `description`, `agent` and `status`. Write them yourself
   only if the wave has none, in the same format (`name` max 15 words, all details in `description`).
 - **Report briefly:** 1-2 sentences, no internal narration. Say which wave you moved on to.
-- **Ask the user only as a last resort:** when nothing gives a task, or the answer is destructive or
-  would change what we build. Answer a subagent's question yourself from the plan, the code, or the
-  goal.
+- **Ask the user only when a task needs a login, a password, or an approval** that only the user can give.
+  Answer a subagent's question yourself from the plan, the code, or the goal.
 
 ## Modes
 
@@ -66,8 +67,9 @@ These are the only three values `/plan` writes. Treat any other value (e.g. old 
 
 ## Status
 
-- Never hand-edit task status — use `ai-task <index|task-id> --status <todo|running|completed|failed|skipped>`.
+- Never hand-edit task status — use `ai-task <index|task-id> --status <todo|running|completed|failed>`.
   The wave status rolls up on its own.
 - The subagent marks itself `completed` or `failed` at the end.
+- **Never skip a task and never use a skipped status.** Every task runs.
 - Waves are ordered newest first in `plan.yml` — wave 3, then 2, then 1. A new wave goes on top.
 - Never delete a finished wave.

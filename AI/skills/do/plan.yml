@@ -2,7 +2,8 @@
 #   name:        short title, max 15 words
 #   description: all details — goal, paths, inputs, steps, constraints, and what "done" means
 #   agent:       scripter | ai | user-task
-#   status:      todo | running | completed | failed | skipped
+#   model:       small | mid | large   (omit for user-task)
+#   status:      todo | running | completed | failed 
 
 active: "wave 2"
 goalCompleted: false
@@ -23,6 +24,7 @@ goalCompleted: false
         Done when: a sample wave with one task per agent type dispatches to the right
           skill and every subagent marks its own status via `ai-task`.
       agent: "ai"
+      model: "mid"
       status: "running"
     - name: "Rename wave-* artifacts to the new naming scheme"
       description: |
@@ -35,6 +37,7 @@ goalCompleted: false
         Constraints: mechanical only — no content changes besides paths.
         Done when: `grep -r "wave-code\|wave-ai\|wave-human" AI/` returns nothing.
       agent: "scripter"
+      model: "small"
       status: "completed"
     - name: "Get the staging API token from the admin"
       description: |
@@ -55,6 +58,7 @@ goalCompleted: false
         Path: AI/agents/planner.md.
         Done when: the planner writes one wave with name, description, agent and status per task.
       agent: "ai"
+      model: "mid"
       status: "completed"
     - name: "Define the executor skills for code, AI and human modes"
       description: |
@@ -62,6 +66,7 @@ goalCompleted: false
         Paths: AI/skills/wave-code.md, AI/skills/wave-ai.md, AI/skills/wave-human.md.
         Done when: each skill says what it runs, how it reports status, and when it stops.
       agent: "ai"
+      model: "mid"
       status: "completed"
     - name: "Create the artifact templates for goal, plan and task files"
       description: |
@@ -69,6 +74,7 @@ goalCompleted: false
         Files: task-goal.md, plan.yml, wave-N-task-M.md.
         Done when: /plan and /do can create each artifact from its template.
       agent: "ai"
+      model: "mid"
       status: "completed"
 
 recommended_next:
