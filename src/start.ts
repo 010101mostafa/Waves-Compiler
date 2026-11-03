@@ -56,15 +56,7 @@ function configerAi(tool:ToolType):void {
   }
   symlinkDirFiles(aiSrc, aiDirTarget);
   symlinkDirFiles(env, aiDirTarget);
-  const child_processes = path.join(taskDir,"child_processes.md")
-  if (!fs.existsSync(child_processes))
-    fs.writeFileSync(child_processes, C_P_T,"utf-8")
 }
-
-const C_P_T = `
-| pid | name |log file | to kill |
-|-----|------|---------|---------|
-`;
 
 
 function symlinkDirFiles(sourceDir: string, targetDir: string) {

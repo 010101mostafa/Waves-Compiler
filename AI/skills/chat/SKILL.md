@@ -1,7 +1,6 @@
 ---
 name: chat
 description: Answer fast, short, and in simple English. Use when the user wants a quick answer with no deep analysis or long thinking.
-model: haiku
 ---
 
 # Chat
